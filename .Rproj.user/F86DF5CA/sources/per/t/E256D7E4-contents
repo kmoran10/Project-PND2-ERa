@@ -183,6 +183,12 @@ saveRDS(Female_limma_results1,"results/Female_limma_results.RDS")
 
 Female_limma_results1 <- readRDS("results/Female_limma_results.RDS")
 
+
+#### REMEMBER - WITH "makeContrasts(group.dlFemale_Oil-group.dlFemale_TP" AND HAVING CTRL BEFORE EXPT, NEGATIVE LogFC VALUES MEANS **HIGHER** IN EXPT GROUP THAN IN CTRL GROUP.
+### OKAY WE HAVE NOW CHANGED THIS TO "makeContrasts(group.dlFemale_TP-group.dlFemale_Oil" - PUTTING EXPT FIRST AND CTRL SECOND - SO THAT UPREGULATED GENES HAVE POSITIVE FC AND DOWNREGULATED GENES HAVE NEGATIVE FC
+#### JK THAT FUCKED EVERYTHING UP WE'RE KEEPING IT THE ORIGINAL WAY, REVIEWERS WILL FUCKING DEAL WITH IT
+
+
 Female_limma_results1 %>% 
   filter(., P.Value<0.05) %>% 
   #  filter(., P.Value != 0) %>%
@@ -191,5 +197,9 @@ Female_limma_results1 %>%
   mutate(.,Total = Up + Down) 
 
 hist(Female_limma_results1$logFC)
+
+
+Female_limma_results1 %>% filter(symbol == "Esr1")
+
 
 

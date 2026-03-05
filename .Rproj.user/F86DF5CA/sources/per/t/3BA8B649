@@ -1,0 +1,27 @@
+{
+    "id": "3BA8B649",
+    "path": "C:/R_Projects/Project-PND2-ERa/analysis/06_VolcanoPlot_Females.R",
+    "project_path": "analysis/06_VolcanoPlot_Females.R",
+    "type": "r_source",
+    "hash": "3503124245",
+    "contents": "",
+    "dirty": false,
+    "created": 1772736163230.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "91,0",
+        "scrollLine": "75"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1772739036,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1772739036495,
+    "read_only": false,
+    "read_only_alternatives": []
+}
