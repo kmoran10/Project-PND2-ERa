@@ -192,11 +192,19 @@ Female_limma_results1 <- readRDS("results/Female_limma_results.RDS")
 Female_limma_results1 %>% 
   filter(., P.Value<0.05) %>% 
   #  filter(., P.Value != 0) %>%
-  summarise(.,Up = sum(logFC>0.2),
-            Down = sum(logFC<0.2)) %>% 
+  summarise(.,Up = sum(logFC>0.5),
+            Down = sum(logFC< -0.5)) %>% 
   mutate(.,Total = Up + Down) 
 
-hist(Female_limma_results1$logFC)
+
+# Log2FC of 0.5 as cutoff - 19 total
+Female_limma_results1 %>% 
+  filter(., P.Value<0.05) %>% 
+  #  filter(., P.Value != 0) %>%
+  summarise(.,Up = sum(logFC>0.5),
+            Down = sum(logFC< -0.5)) %>% 
+  mutate(.,Total = Up + Down) 
+
 
 
 Female_limma_results1 %>% filter(symbol == "Esr1")

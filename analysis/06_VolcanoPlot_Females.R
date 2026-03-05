@@ -32,11 +32,11 @@ dc <- y1a %>% mutate(contrast = "Oil vs. TP") %>% mutate(log10 = -log10(P.Value)
 
 dc$diffexpressed <- "NO"
 # if log2Foldchange > 0.6 and pvalue < 0.05, set as "UP" 
-dc$diffexpressed[dc$logFC > 0.2 & dc$P.Value < 0.05] <- "UP"
+dc$diffexpressed[dc$logFC < 0.2 & dc$P.Value < 0.05] <- "UP"
 
 # if log2Foldchange < -0.6 and pvalue < 0.05, set as "DOWN"
-dc$diffexpressed[dc$logFC < -0.2 & dc$P.Value < 0.05] <- "DOWN"
-
+dc$diffexpressed[dc$logFC > -0.2 & dc$P.Value < 0.05] <- "DOWN"
+## REMEMBER, NEGATIVE LOGFC = HIGHER IN EXPT
 
 
 dcx <- dc %>% filter(.,logFC >= .4)%>% filter(P.Value < 0.05)
@@ -44,7 +44,8 @@ dcxx <- dc %>% filter(.,logFC <= -.45) %>% filter(P.Value < 0.05)
 
 dcxxx<- dc %>%
   filter(logFC >= 0.2 | logFC <= -0.2) %>%
-  arrange(P.Value) %>%
+  filter(P.Value < 0.05) %>% 
+  arrange(-abs(logFC), P.Value) %>% 
   slice_head(n = 10)
 
 dc$log10 <- ifelse(dc$log10 == Inf, 4,dc$log10)
@@ -99,4 +100,15 @@ top50sigdiff_genes_Female <- y1a %>%
 
 
 write.csv(top50sigdiff_genes_Female,"results/top50sigdiff_genes_Female.csv", row.names = F)
+
+
+# Log2FC of 0.5 as cutoff - 19 total
+y1a %>% 
+  filter(logFC >= 0.5 | logFC <= -0.5) %>%
+  filter(P.Value < 0.05) %>% 
+  arrange(-abs(logFC), P.Value) %>% 
+  select(symbol, logFC, P.Value, chr, description)
+
+
+
 
