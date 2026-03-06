@@ -1,6 +1,11 @@
 
 # limma 
 
+# BiocManager::install("")
+# BiocManager::install("biomaRt")
+# BiocManager::install("AnnotationDbi")
+# BiocManager::install("annotables")
+
 library(limma)
 library(Glimma)
 library(edgeR)
@@ -169,15 +174,19 @@ Female_limma_results <- topTable(tmp1, sort.by = "P", n = Inf) %>%
   rownames_to_column('symbol') %>%
   dplyr::select(symbol,logFC,P.Value)
 
+Female_limma_results %>% filter(symbol == "Sts")
+
+
 Female_limma_results1 <- Female_limma_results %>%
   left_join(grcm38, by = "symbol") %>%
   filter(!is.na(symbol)) %>%
   filter(!is.na(entrez)) %>%
   select(symbol,logFC,P.Value,chr,entrez,start,end,biotype,description)
 
-
-
-
+Female_limma_results1 %>% filter(symbol == "Sts")
+grcm38 %>% filter(symbol == "Esr1")
+grcm38 %>% filter(symbol == "Sts")
+ 
 saveRDS(Female_limma_results1,"results/Female_limma_results.RDS")
 
 

@@ -109,6 +109,8 @@ y1a %>%
   arrange(-abs(logFC), P.Value) %>% 
   select(symbol, logFC, P.Value, chr, description)
 
+y1a %>% filter(chr == "X") %>% arrange(-abs(logFC), P.Value)
 
+y1a %>% filter(symbol == "Sts")
 
-
+cts %>% filter(X == "Sts")
