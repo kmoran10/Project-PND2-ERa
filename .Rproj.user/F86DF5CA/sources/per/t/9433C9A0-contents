@@ -13,7 +13,7 @@ library(annotables)
 library(ggpubr)
 library(lsr)
 
-source("functions/geom_boxjitter.R")
+#source("functions/geom_boxjitter.R")
 
 
 # load data 
@@ -55,15 +55,15 @@ counts <- genecounts %>%
 
 ##
 
-genecounts %>%
-  ggplot(aes(Treatment,genecounts, color = Treatment))+
-  geom_boxjitter(outlier.color = NA, jitter.shape = 21, 
-                 alpha = 1,
-                 width = 0.5,
-                 jitter.height = 0.02, jitter.width = 0.07, errorbar.draw = TRUE,
-                 position = position_dodge(0.6)) +
-  theme_classic()+
-  theme(legend.position = "none")
+# genecounts %>%
+#   ggplot(aes(Treatment,genecounts, color = Treatment))+
+#   geom_boxjitter(outlier.color = NA, jitter.shape = 21, 
+#                  alpha = 1,
+#                  width = 0.5,
+#                  jitter.height = 0.02, jitter.width = 0.07, errorbar.draw = TRUE,
+#                  position = position_dodge(0.6)) +
+#   theme_classic()+
+#   theme(legend.position = "none")
 
 
 genecounts %>%

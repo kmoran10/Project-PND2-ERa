@@ -1,5 +1,5 @@
 
-# limma 
+# limma -- SWAPPING CONTRASTS TO TP-OIL
 
 # BiocManager::install("")
 # BiocManager::install("biomaRt")
@@ -76,7 +76,7 @@ all(rownames(var_info) == colnames(dlNorm)) #check
 
 
 coldata$group %>% 
-  factor(.,levels = c("Female_Oil","Female_TP")) -> group.dl
+  factor(.,levels = c("Female_TP","Female_Oil")) -> group.dl
 
 design.dl <- model.matrix(~ 0 + group.dl)
 colnames(design.dl) -> mycolnames
@@ -98,7 +98,7 @@ efit.dl2 = eBayes(vfit.dl2)
 p.dl.limma2 = efit.dl2[["p.value"]]
 head(p.dl.limma2)
 
-saveRDS(v.dl, "results/limma_vdl_Females.RDS")
+saveRDS(v.dl, "results/SWAPTEST1_limma_vdl_Females.RDS")
 
 
 
@@ -155,13 +155,13 @@ efit.dl2[["p.value"]] <- q.dl
 sum(duplicated(row.names(efit.dl2$coefficients)))
 
 
-saveRDS(q.dl,("results/limma_vdl_cutoff5_2000_tworand_Female.RDS"))
+saveRDS(q.dl,("results/SWAPTEST1_limma_vdl_cutoff5_2000_tworand_Female.RDS"))
 
 
 #### done random sampling - don't redo unless needed ####
 
 
-q.dl <- readRDS("results/limma_vdl_cutoff5_2000_tworand_Female.RDS")
+q.dl <- readRDS("results/SWAPTEST1_limma_vdl_cutoff5_2000_tworand_Female.RDS")
 
 
 ##### Analysis pulling genes out for each contrast
@@ -170,27 +170,27 @@ tmp1 <- contrasts.fit(efit.dl2, coef = 1) #
 
 #keep in mind these P.Values ARE the eFDRs
 
-Female_limma_results <- topTable(tmp1, sort.by = "P", n = Inf) %>%
+SWAPTEST1_Female_limma_results <- topTable(tmp1, sort.by = "P", n = Inf) %>%
   rownames_to_column('symbol') %>%
   dplyr::select(symbol,logFC,P.Value)
 
-Female_limma_results %>% filter(symbol == "Sts")
+SWAPTEST1_Female_limma_results %>% filter(symbol == "Sts")
 
 
-Female_limma_results1 <- Female_limma_results %>%
+SWAPTEST1_Female_limma_results1 <- SWAPTEST1_Female_limma_results %>%
   left_join(grcm38, by = "symbol") %>%
   filter(!is.na(symbol)) %>%
   filter(!is.na(entrez)) %>%
   select(symbol,logFC,P.Value,chr,entrez,start,end,biotype,description)
 
-Female_limma_results1 %>% filter(symbol == "Sts")
+SWAPTEST1_Female_limma_results1 %>% filter(symbol == "Sts")
 grcm38 %>% filter(symbol == "Esr1")
 grcm38 %>% filter(symbol == "Sts")
- 
-saveRDS(Female_limma_results1,"results/Female_limma_results.RDS")
+
+saveRDS(SWAPTEST1_Female_limma_results1,"results/SWAPTEST1_Female_limma_results.RDS")
 
 
-Female_limma_results1 <- readRDS("results/Female_limma_results.RDS")
+SWAPTEST1_Female_limma_results1 <- readRDS("results/SWAPTEST1_Female_limma_results.RDS")
 
 
 #### REMEMBER - WITH "makeContrasts(group.dlFemale_Oil-group.dlFemale_TP" AND HAVING CTRL BEFORE EXPT, NEGATIVE LogFC VALUES MEANS **HIGHER** IN EXPT GROUP THAN IN CTRL GROUP.
@@ -198,7 +198,7 @@ Female_limma_results1 <- readRDS("results/Female_limma_results.RDS")
 #### JK THAT FUCKED EVERYTHING UP WE'RE KEEPING IT THE ORIGINAL WAY, REVIEWERS WILL FUCKING DEAL WITH IT
 
 
-Female_limma_results1 %>% 
+SWAPTEST1_Female_limma_results1 %>% 
   filter(., P.Value<0.05) %>% 
   #  filter(., P.Value != 0) %>%
   summarise(.,Up = sum(logFC>0.2),
@@ -206,8 +206,8 @@ Female_limma_results1 %>%
   mutate(.,Total = Up + Down) 
 
 
-# Log2FC of 0.5 as cutoff - 19 total
-Female_limma_results1 %>% 
+# Log2FC of 0.5 as cutoff - 20 total
+SWAPTEST1_Female_limma_results1 %>% 
   filter(., P.Value<0.05) %>% 
   #  filter(., P.Value != 0) %>%
   summarise(.,Up = sum(logFC>0.5),
@@ -216,7 +216,7 @@ Female_limma_results1 %>%
 
 
 
-Female_limma_results1 %>% filter(symbol == "Esr1")
+SWAPTEST1_Female_limma_results1 %>% filter(symbol == "Esr1")
 
 
 

@@ -31,12 +31,9 @@ dc <- y1a %>% mutate(contrast = "Oil vs. TP") %>% mutate(log10 = -log10(P.Value)
 
 
 dc$diffexpressed <- "NO"
-# if log2Foldchange > 0.6 and pvalue < 0.05, set as "UP" 
-dc$diffexpressed[dc$logFC < 0.2 & dc$P.Value < 0.05] <- "UP"
+dc$diffexpressed[dc$logFC > 0.2 & dc$P.Value < 0.05] <- "UP"
+dc$diffexpressed[dc$logFC < -0.2 & dc$P.Value < 0.05] <- "DOWN"
 
-# if log2Foldchange < -0.6 and pvalue < 0.05, set as "DOWN"
-dc$diffexpressed[dc$logFC > -0.2 & dc$P.Value < 0.05] <- "DOWN"
-## REMEMBER, NEGATIVE LOGFC = HIGHER IN EXPT
 
 
 dcx <- dc %>% filter(.,logFC >= .4)%>% filter(P.Value < 0.05)
@@ -69,9 +66,9 @@ vp_Fem <- ggplot(data = dc,
        x="log2 Fold Change",
        y=bquote(~-Log[10]~italic(eFDR)))+
   theme_bw() +
-  annotate(geom="text", x=1, y=2.75, label=paste0(" ", "\n", "Lower in TP"),
+  annotate(geom="text", x=1, y=2.75, label=paste0(" ", "\n", "Higher in TP"),
            color="black", size = 5)+
-  annotate(geom="text", x=-1, y=2.75, label=paste0(" ", "\n", "Higher in TP"),
+  annotate(geom="text", x=-1, y=2.75, label=paste0(" ", "\n", "Lower in TP"),
            color="black", size = 5)+
   scale_x_continuous(limits = c(-1.5,1.5),breaks = c(-1.5,-1,-.5,0,.5,1,1.5))+
   theme(axis.text.x = element_text(vjust = 1,size = 20),
@@ -102,7 +99,7 @@ top50sigdiff_genes_Female <- y1a %>%
 write.csv(top50sigdiff_genes_Female,"results/top50sigdiff_genes_Female.csv", row.names = F)
 
 
-# Log2FC of 0.5 as cutoff - 19 total
+# Log2FC of 0.5 as cutoff - 20 total
 y1a %>% 
   filter(logFC >= 0.5 | logFC <= -0.5) %>%
   filter(P.Value < 0.05) %>% 
@@ -112,5 +109,3 @@ y1a %>%
 y1a %>% filter(chr == "X") %>% arrange(-abs(logFC), P.Value)
 
 y1a %>% filter(symbol == "Sts")
-
-cts %>% filter(X == "Sts")

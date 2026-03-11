@@ -87,7 +87,7 @@ vfit.dl = lmFit(v.dl, design.dl)
 
 
 
-contr.matrix <- makeContrasts(group.dlFemale_Oil-group.dlFemale_TP,
+contr.matrix <- makeContrasts(group.dlFemale_TP-group.dlFemale_Oil,
                               levels = design.dl)
 
 
@@ -201,8 +201,8 @@ Female_limma_results1 <- readRDS("results/Female_limma_results.RDS")
 Female_limma_results1 %>% 
   filter(., P.Value<0.05) %>% 
   #  filter(., P.Value != 0) %>%
-  summarise(.,Up = sum(logFC>0.5),
-            Down = sum(logFC< -0.5)) %>% 
+  summarise(.,Up = sum(logFC>0.2),
+            Down = sum(logFC< -0.2)) %>% 
   mutate(.,Total = Up + Down) 
 
 
